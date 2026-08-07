@@ -7,6 +7,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { RolesGuard } from './common/guards/role.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { UploadModule } from './common/uploads/upload.module';
 
 loadEnvironment();
 
@@ -17,7 +18,8 @@ loadEnvironment();
       retryDelay: 3000,
     }),
     AuthModule,
-    ProfileModule
+    ProfileModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [

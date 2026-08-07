@@ -15,7 +15,7 @@ import { UsersModule } from '../users/users.module';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
-      useFactory: async () => ({
+      useFactory: () => ({
         secret: process.env.JWT_SECRET || 'secret-key',
         signOptions: {
           expiresIn: (process.env.JWT_EXPIRES_IN ||

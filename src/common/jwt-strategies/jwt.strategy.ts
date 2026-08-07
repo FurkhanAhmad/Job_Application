@@ -5,6 +5,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/models/user.model';
 
+interface JwtPayload {
+  sub: string;
+}
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
@@ -30,7 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: JwtPayload) {
     const user = await this.userModel
       .findById(payload.sub)
       .select('-password -refreshToken')

@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
-import { Company } from './company.model';
-import { User } from './user.model';
 
 export type ProfileDocument = Profile & Document;
 
@@ -48,7 +46,6 @@ export class Profile {
     unique: true,
   })
   user!: Types.ObjectId;
-  
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

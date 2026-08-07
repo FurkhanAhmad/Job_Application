@@ -1,31 +1,29 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Types } from "mongoose";
-import { User } from "./user.model";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { User } from './user.model';
 
-import mongoose from "mongoose";
-export type CompanyDocument=Company & Document;
+import mongoose from 'mongoose';
+export type CompanyDocument = Company & Document;
 
-@Schema({timestamps:true})
+@Schema({ timestamps: true })
+export class Company {
+  @Prop({ required: true })
+  name!: string;
 
-export class Company{
-       @Prop({required:true})
-       name!:string;
+  @Prop({ required: true })
+  description!: string;
 
-       @Prop({required:true})
-       description!:string;
+  @Prop({ required: true })
+  website!: string;
 
-       @Prop({required:true})
-       website!:string;
-        
-       @Prop({required:true})
-       location!:string;
-       
-       @Prop({})
-       logo?:string;
-      
-     @Prop({type:mongoose.Schema.Types.ObjectId,ref:'User'})
-     userId!:User
+  @Prop({ required: true })
+  location!: string;
 
+  @Prop({})
+  logo?: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  userId!: User;
 }
 
-export const CompanySchema=SchemaFactory.createForClass(Company)
+export const CompanySchema = SchemaFactory.createForClass(Company);

@@ -1,80 +1,40 @@
-// import { IsString } from "class-validator";
-
-
-
-// export class CreateProfileDto {
-//     @IsString()
-//     bio?: string;
-    
-//     @IsString()
-//     skills?: string[];
-
-//     @IsString()
-//     resume?: string;
-
-//     @IsString()
-//     resumeOriginalName?: string;
-
-//     @IsString()
-//     profilePhoto?: string;
-
-//     @IsString()
-//     company?: string;
-
-//     @IsString()
-//     user?: string;
-// }
-
-
-import { ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsArray, IsMongoId, IsOptional, IsString } from 'class-validator';
+
+function transformSkills(value: unknown): unknown {
+  if (Array.isArray(value)) return value;
+  if (typeof value !== 'string') return value;
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [value];
+  } catch {
+    return [value];
+  }
+}
 
 export class CreateProfileDto {
   @ApiPropertyOptional({
-    example: "Full Stack Developer with 2 years of experience.",
-    description: "User bio",
+    example: 'Full Stack Developer with 2 years of experience.',
   })
   @IsOptional()
   @IsString()
   bio?: string;
 
   @ApiPropertyOptional({
-    example: ["Node.js", "NestJS", "MongoDB", "React"],
-    description: "List of user skills",
+    example: ['Node.js', 'NestJS', 'MongoDB'],
     type: [String],
   })
   @IsOptional()
+  @Transform(({ value }) => transformSkills(value))
   @IsArray()
   @IsString({ each: true })
   skills?: string[];
 
   @ApiPropertyOptional({
-    example: "https://example.com/resume.pdf",
-    description: "Resume URL",
-  })
-  @IsOptional()
-  @IsString()
-  resume?: string;
-
-  @ApiPropertyOptional({
-    example: "Furkan_Resume.pdf",
-    description: "Original resume file name",
-  })
-  @IsOptional()
-  @IsString()
-  resumeOriginalName?: string;
-
-  @ApiPropertyOptional({
-    example: "https://example.com/profile.jpg",
-    description: "Profile photo URL",
-  })
-  @IsOptional()
-  @IsString()
-  profilePhoto?: string;
-
-  @ApiPropertyOptional({
     example: '665c2f5a8f4e8b0012345678',
-    description: 'Optional MongoDB ID of the linked company',
+    description: 'Optional MongoDB ID of the linked company.',
   })
   @IsOptional()
   @IsMongoId()
