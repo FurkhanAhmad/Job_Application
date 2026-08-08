@@ -1,23 +1,32 @@
-import { Document } from 'mongoose';
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
-import { Job } from './job.model';
-import { User } from './user.model';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document, Types } from 'mongoose';
+
 export type ApplicationDocument = Application & Document;
+
+export enum ApplicationStatus {
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
+}
 
 @Schema({ timestamps: true })
 export class Application {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Job', required: true })
-  job!: Job;
+  job!: Types.ObjectId;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  applicat!: User;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  })
+  applicant!: Types.ObjectId;
+
   @Prop({
     type: String,
-    enum: ['pending', 'accepted', 'rejected'],
+    enum: ApplicationStatus,
     default: 'pending',
   })
-  status!: string;
+  status!: ApplicationStatus;
 }
 
 export const ApplicationSchema = SchemaFactory.createForClass(Application);

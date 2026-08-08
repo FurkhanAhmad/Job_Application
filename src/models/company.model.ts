@@ -1,8 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { User } from './user.model';
-
-import mongoose from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 export type CompanyDocument = Company & Document;
 
 @Schema({ timestamps: true })
@@ -23,7 +20,9 @@ export class Company {
   logo?: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  userId!: User;
+  userId!: Types.ObjectId;
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);
+
+CompanySchema.index({ userId: 1, name: 1 }, { unique: true });

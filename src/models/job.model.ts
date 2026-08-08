@@ -1,55 +1,60 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { Company } from './company.model';
-import { User } from './user.model';
-
-import { Schema } from '@nestjs/mongoose';
-import { Application } from './application.model';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 export type JobDocument = Job & Document;
+
 export enum JobType {
   FULL_TIME = 'Full Time',
   PART_TIME = 'Part Time',
   INTERNSHIP = 'Internship',
   CONTRACT = 'Contract',
 }
+
 @Schema({ timestamps: true })
 export class Job {
-  @Prop()
+  @Prop({ required: true, trim: true })
   title!: string;
 
-  @Prop()
+  @Prop({ required: true, trim: true })
   description!: string;
 
   @Prop({ type: [String], default: [] })
   requirements!: string[];
 
-  @Prop()
+  @Prop({ required: true, min: 0 })
   salary!: number;
 
-  @Prop()
+  @Prop({ required: true, trim: true })
   location!: string;
 
-  @Prop()
+  @Prop({ required: true, enum: JobType })
   jobType!: JobType;
 
-  @Prop()
+  @Prop({ required: true, min: 0 })
+  experience!: number;
+
+  @Prop({ required: true, min: 1 })
   position!: number;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
+    required: true,
   })
-  company!: Company;
+  companyId!: Types.ObjectId;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   })
-  created_by!: User;
+  created_by!: Types.ObjectId;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Application' })
-  applications!: Application[];
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Application' }],
+    default: [],
+  })
+  applications!: Types.ObjectId[];
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

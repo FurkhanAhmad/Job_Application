@@ -8,6 +8,10 @@ import { RolesGuard } from './common/guards/role.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { UploadModule } from './common/uploads/upload.module';
+import { CompanyModule } from './modules/company/company.module';
+import { JobModule } from './modules/jobs/job.module';
+import { ApplicationModule } from './modules/application/application.module';
+
 
 loadEnvironment();
 
@@ -20,6 +24,9 @@ loadEnvironment();
     AuthModule,
     ProfileModule,
     UploadModule,
+    CompanyModule,
+    JobModule,
+    ApplicationModule
   ],
   controllers: [AppController],
   providers: [

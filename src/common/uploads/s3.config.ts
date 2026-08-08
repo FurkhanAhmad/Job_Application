@@ -24,10 +24,7 @@ export function createS3Client(): S3Client {
     region: firstEnv('AWS_REGION', 'AWS_DEFAULT_REGION'),
     credentials: {
       accessKeyId: firstEnv('AWS_ACCESS_KEY_ID', 'AWS_ACCESS_KEY'),
-      secretAccessKey: firstEnv(
-        'AWS_SECRET_ACCESS_KEY',
-        'AWS_SECRET_KEY',
-      ),
+      secretAccessKey: firstEnv('AWS_SECRET_ACCESS_KEY', 'AWS_SECRET_KEY'),
     },
   });
 }

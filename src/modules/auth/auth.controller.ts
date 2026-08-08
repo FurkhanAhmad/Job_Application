@@ -29,7 +29,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
- //Register User
+  //Register User
   @Public()
   @Post('register')
   @ApiOperation({
@@ -67,7 +67,6 @@ export class AuthController {
 
     return { user: result.user };
   }
-
 
   // Login User
   @Public()
